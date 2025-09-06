@@ -1,350 +1,107 @@
-# Claude 配置切换工具 (ClaudeSwitch)
+# Claude 配置切换工具 (ccSwitchConfig)
 
-一个强大的命令行工具，用于快速切换不同的 Claude API 配置（Moonshot、阿里云百炼、ModelScope）。
+一个简单的命令行工具，用于在不同的 Claude API 兼容服务（如 Moonshot, 阿里云百炼, ModelScope）之间快速切换和持久化配置。
 
-**命令名称**：`claudeswitch` （避免与官方 Claude CLI 冲突）
+**命令名称**: `claudeswitch`
 
-**🆕 新功能**：配置自动持久化！切换的配置会自动保存，新终端窗口自动恢复上次的 API 设置
+**核心功能**: 你的选择会自动保存在一个文件中。每次打开新终端时，配置会自动恢复。
 
 ## 🌟 功能特性
 
-- 🔄 **多 API 支持**：支持 Moonshot、阿里云百炼、ModelScope 三大平台
-- 💾 **配置持久化**：切换的配置自动保存，新终端自动恢复，无需重复设置
-- ⚡ **快速切换**：一键切换不同的 API 配置
-- 🔍 **状态查看**：实时查看当前 API 配置状态
-- 🛡️ **安全配置**：密钥文件权限保护，仅当前用户可读写
-- 🎯 **自动补全**：支持 Zsh 命令补全
-- 📝 **配置管理**：便捷的配置文件编辑和管理
+- 🔄 **多服务支持**: 支持 Moonshot, 阿里云百炼, ModelScope。
+- 💾 **配置持久化**: 你的选择会被保存，新终端会自动加载上次的配置。
+- ⚡ **快速切换**: 使用单个命令即可切换。
+- 🔍 **状态查看**: 清晰地查看当前保存的选项和环境变量。
+- 🧹 **一键清理**: 快速清理所有相关的环境变量。
+- 🛡️ **安全**: API 密钥存储在受限权限的文件中。
+- ⌨️ **自动补全**: 为 Zsh 用户提供命令自动补全。
 
-## 📋 安装指南
+## 📋 安装
 
-### 前提要求
+1.  **克隆仓库**
+    ```bash
+    git clone https://github.com/your-username/ccSwitchConfig.git
+    cd ccSwitchConfig
+    ```
 
-- macOS/Linux 系统
-- Zsh shell
-- Bash（用于运行安装脚本）
+2.  **运行安装脚本**
+    ```bash
+    ./install.sh
+    ```
+    脚本会自动将 `claude-config.sh` 复制到 `~/.config/claude/` 并设置好 `~/.zshrc`。
 
-### 一键安装
+3.  **配置 API 密钥**
+    编辑新创建的密钥文件并填入你的 API 密钥：
+    ```bash
+    vim ~/.config/claude/api-keys.env
+    ```
 
-1. **克隆或下载项目**
-   ```bash
-   git clone <repository-url>
-   cd claude-config-switcher
-   ```
-
-2. **运行安装脚本**
-   ```bash
-   chmod +x install.sh
-   ./install.sh
-   ```
-
-3. **激活 ClaudeSwitch**
-   ```bash
-   source ~/.zshrc
-   # 或者关闭终端重新打开
-   ```
-
-### 手动安装（备选方案）
-
-如果自动安装失败，可以手动安装：
-
-1. **创建配置目录**
-   ```bash
-   mkdir -p ~/.config/claude
-   ```
-
-2. **复制配置文件**
-   ```bash
-   cp claude-config.sh ~/.config/claude/
-   chmod +x ~/.config/claude/claude-config.sh
-   ```
-
-3. **创建密钥文件**
-   ```bash
-   cp api-keys.env.template ~/.config/claude/api-keys.env
-   chmod 600 ~/.config/claude/api-keys.env
-   ```
-
-4. **添加到 shell 配置**
-   在 `~/.zshrc` 文件中添加：
-   ```bash
-   source ~/.config/claude/claude-config.sh
-   ```
-
-5. **重新加载配置**
-   ```bash
-   source ~/.zshrc
-   ```
-
-## ⚙️ 配置说明
-
-### 1. 编辑 API 密钥
-
-安装完成后，首先需要编辑密钥文件：
-
-```bash
-# 使用 vim 编辑
-vim ~/.config/claude/api-keys.env
-
-# 或使用 nano 编辑
-nano ~/.config/claude/api-keys.env
-```
-
-根据你使用的平台，填写相应的 API 密钥：
-
-```bash
-# Moonshot API 配置
-MOONSHOT_API_KEY="sk-你的moonshot密钥"
-
-# 阿里云百炼配置  
-BAILIAN_AUTH_TOKEN="sk-你的阿里云密钥"
-
-# ModelScope 配置
-MODELSCOPE_AUTH_TOKEN="ms-你的modelscope密钥"
-```
-
-### 2. 测试配置
-
-配置完成后，测试密钥是否正确加载：
-
-```bash
-claudeswitch test
-```
-
-### 3. 配置持久化（重要功能！）
-
-**ClaudeSwitch 现在支持配置持久化！**
-
-一旦你切换到某个 API 配置，系统会自动保存当前设置。即使你关闭终端、重新打开新窗口，配置也会被自动恢复。
-
-**工作原理：**
-- 每次切换 API 时，配置会自动保存到 `~/.config/claude/current-config.env`
-- 新终端打开时，工具会自动加载上次使用的配置
-- 配置文件权限为 600，确保安全
-
-**禁用自动加载：**
-```bash
-export CLAUDESWITCH_NO_AUTOLOAD=1
-```
+4.  **重新加载 Shell**
+    ```bash
+    source ~/.zshrc
+    ```
+    现在 `claudeswitch` 命令应该可用了。
 
 ## 🚀 使用指南
 
-### 基本命令
+### 切换配置
+
+切换命令会立即生效，并为你之后打开的所有新终端设置默认配置。
+
+- **切换到 Moonshot**:
+  ```bash
+  claudeswitch moon
+  ```
+
+- **切换到阿里云百炼**:
+  ```bash
+  claudeswitch ali
+  ```
+
+- **切换到 ModelScope**:
+  ```bash
+  claudeswitch ms
+  ```
+
+### 查看状态
+
+使用 `status` 命令可以查看当前持久化的选择以及当前 shell 中生效的环境变量。
 
 ```bash
-# 查看帮助
-claudeswitch help
-
-# 查看当前状态
 claudeswitch status
-
-# 切换到 Moonshot API
-claudeswitch moon
-
-# 切换到阿里云百炼
-claudeswitch ali
-
-# 切换到 ModelScope
-claudeswitch ms
-
-# 清理所有环境变量
-claudeswitch clear
-
-# 编辑配置文件
-claudeswitch edit
 ```
 
-### API 配置命令
+### 清理配置
 
-#### Moonshot API
+`clear` 命令会清除所有相关的环境变量，并将持久化设置也重置为 `clear` 状态。
+
 ```bash
-claudeswitch moon
-# 或
-claudeswitch moonshot
-```
-
-#### 阿里云百炼
-```bash
-claudeswitch ali
-# 或
-claudeswitch bailian
-```
-
-#### ModelScope
-```bash
-claudeswitch ms
-# 或
-claudeswitch modelscope
-```
-
-### 快捷命令
-
-支持命令缩写形式：
-- `claudeswitch st` - 显示状态（等同于 `claudeswitch status`）
-- `claudeswitch ls` - 显示帮助（等同于 `claudeswitch help`）
-
-## 📊 使用示例
-
-### 示例 1：基础使用流程（配置自动保存）
-```bash
-# 1. 查看当前状态
-claudeswitch status
-
-# 2. 切换到 Moonshot（配置会自动保存）
-claudeswitch moon
-
-# 3. 验证切换成功
-claudeswitch status
-
-# 4. 现在你可以关闭终端，重新打开，配置还在！
-# 新终端会自动恢复 Moonshot 配置
-```
-
-### 示例 2：多平台切换
-```bash
-# 切换到阿里云进行中文对话
-claudeswitch ali
-
-# 切换到 Moonshot 进行英文对话
-claudeswitch moon
-
-# 切换到 ModelScope 测试新模型
-claudeswitch ms
-```
-
-### 示例 3：故障排查
-```bash
-# 检查密钥是否正确加载
-claudeswitch test
-
-# 查看帮助信息
-claudeswitch help
-
-# 如果配置混乱，清理环境变量
 claudeswitch clear
 ```
 
-## 🔧 高级功能
-
-### 自动补全
-
-工具支持 Zsh 自动补全功能：
+### 获取帮助
 
 ```bash
-# 输入 claudeswitch 后按 Tab 键查看可用命令
-claudeswitch <Tab>
+claudeswitch help
 ```
 
-可用的自动补全选项：
-- `moon` / `moonshot` - 切换 Moonshot API
-- `ali` / `bailian` - 切换阿里云百炼
-- `ms` / `modelscope` - 切换 ModelScope
-- `status` / `st` - 显示状态
-- `clear` / `reset` - 清理环境变量
-- `edit` / `config` - 编辑配置
-- `test` - 测试密钥
-- `list` / `ls` / `help` - 显示帮助
+## 🤔 工作原理
 
-### 环境变量
-
-工具会设置以下环境变量：
-- `ANTHROPIC_BASE_URL` - API 基础地址
-- `ANTHROPIC_API_KEY` - API 密钥（某些平台）
-- `ANTHROPIC_AUTH_TOKEN` - 认证令牌（某些平台）
-- `ANTHROPIC_MODEL` - 模型名称（某些平台）
-
-## 🛠️ 常见问题
-
-### Q1: 安装后命令不可用？
-**解决方案：**
-1. 确认已执行 `source ~/.zshrc`
-2. 检查 `~/.zshrc` 中是否包含 `source ~/.config/claude/claude-config.sh`
-3. 重新打开终端窗口
-
-### Q2: 切换 API 后无效？
-**解决方案：**
-1. 检查密钥是否正确：`claudeswitch test`
-2. 确认 API 密钥是否有效
-3. 检查网络连接
-4. 清理环境变量后重试：`claudeswitch clear`
-
-### Q3: 自动补全不工作？
-**解决方案：**
-1. 确认使用 Zsh shell
-2. 重新加载配置：`source ~/.zshrc`
-3. 检查 compdef 是否可用
-
-### Q4: 权限错误？
-**解决方案：**
-1. 检查密钥文件权限：`ls -la ~/.config/claude/api-keys.env`
-2. 确保权限为 600：`chmod 600 ~/.config/claude/api-keys.env`
-
-### Q5: 配置在新终端中不生效？
-**解决方案：**
-- 确保你使用的是支持配置文件加载的 Cladoneswitch 版本（v2.0+）
-- 检查是否禁用了自动加载：`echo $CLAUDESWITCH_NO_AUTOLOAD`
-- 手动加载保存的配置：`source ~/.config/claude/current-config.env`
-- 如果问题持续，尝试：`claudeswitch moon`（或其他平台）重新设置
-
-### Q6: 如何禁用自动持久化？
-**解决方案：**
-```bash
-export CLAUDESWITCH_NO_AUTOLOAD=1
-```
-设置此环境变量即可禁用自动加载保存的配置。
-
-## 🔒 安全说明
-
-- **密钥文件保护**：密钥文件默认设置为 600 权限（仅当前用户可读写）
-- **不存储敏感信息**：工具只存储必要的 API 密钥，不保存其他敏感数据
-- **本地运行**：所有配置都在本地进行，不会上传到任何服务器
+-   当你运行 `claudeswitch <choice>` 时，你的选择（例如 `moon`）会被写入到 `~/.config/claude/api_choice` 文件中。
+-   `claude-config.sh` 脚本在 `~/.zshrc` 中被 `source`。
+-   每次你打开一个新的终端，`claude-config.sh` 都会被加载，它会读取 `api_choice` 文件并自动为你配置相应的环境变量。
 
 ## 📁 文件结构
 
-```
-claude-config-switcher/
-├── install.sh              # 安装脚本
-├── claude-config.sh        # 主配置工具
-├── api-keys.env.template   # 密钥文件模板
-└── README.md              # 本文档
-```
+安装后，相关文件位于 `~/.config/claude/`：
 
-安装后的文件位置：
 ```
 ~/.config/claude/
-├── claude-config.sh        # 主工具脚本
-├── api-keys.env           # API 密钥配置文件
-└── current-config.env     # 自动保存的当前配置（新增）
+├── api-keys.env      # 存储你的 API 密钥
+├── api_choice        # 存储你当前选择的配置
+└── claude-config.sh  # 主要的逻辑脚本
 ```
-
-## 🤝 贡献指南
-
-欢迎提交 Issue 和 Pull Request 来改进这个工具！
-
-### 开发建议
-- 保持代码简洁易懂
-- 添加适当的错误处理
-- 更新文档说明
-- 测试不同平台的兼容性
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 详情请查看 LICENSE 文件。
-
-## 🙏 致谢
-
-感谢以下平台的 API 支持：
-- [Moonshot AI](https://www.moonshot.cn/)
-- [阿里云百炼](https://bailian.aliyun.com/)
-- [ModelScope](https://www.modelscope.cn/)
-
----
-
-## 💡 小贴士
-
-1. **定期更新密钥**：为了安全，建议定期更新 API 密钥
-2. **备份配置**：可以备份 `~/.config/claude/` 目录以防配置丢失
-3. **多环境使用**：可以在不同机器上使用相同的配置文件
-4. **快速切换**：使用 `claudeswitch moon` / `claudeswitch ali` / `claudeswitch ms` 快速在不同平台间切换
-
-如有问题，请查看帮助信息：`claudeswitch help`
+本项目采用 MIT 许可证。
