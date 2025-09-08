@@ -1,6 +1,6 @@
 # Claude 配置切换工具 (ccSwitchConfig)
 
-一个简单的命令行工具，用于在不同的 Claude API 兼容服务（如 Moonshot, 阿里云百炼, ModelScope）之间快速切换和持久化配置。
+一个简单的命令行工具，用于在不同的 Claude API 兼容服务（如 Moonshot, 阿里云百炼, ModelScope, 智谱 BigModel）之间快速切换和持久化配置。
 
 **命令名称**: `claudeswitch`
 
@@ -8,7 +8,7 @@
 
 ## 🌟 功能特性
 
-- 🔄 **多服务支持**: 支持 Moonshot, 阿里云百炼, ModelScope。
+- 🔄 **多服务支持**: 支持 Moonshot, 阿里云百炼, ModelScope, 智谱 BigModel。
 - 💾 **配置持久化**: 你的选择会被保存，新终端会自动加载上次的配置。
 - ⚡ **快速切换**: 使用单个命令即可切换。
 - 🔍 **状态查看**: 清晰地查看当前保存的选项和环境变量。
@@ -63,6 +63,11 @@
   claudeswitch ms
   ```
 
+- **切换到智谱 BigModel**:
+  ```bash
+  claudeswitch big
+  ```
+
 ### 查看状态
 
 使用 `status` 命令可以查看当前持久化的选择以及当前 shell 中生效的环境变量。
@@ -90,6 +95,28 @@ claudeswitch help
 -   当你运行 `claudeswitch <choice>` 时，你的选择（例如 `moon`）会被写入到 `~/.config/claude/api_choice` 文件中。
 -   `claude-config.sh` 脚本在 `~/.zshrc` 中被 `source`。
 -   每次你打开一个新的终端，`claude-config.sh` 都会被加载，它会读取 `api_choice` 文件并自动为你配置相应的环境变量。
+
+## 🔧 API 配置详情
+
+### Moonshot
+- **环境变量**: `MOONSHOT_API_KEY`
+- **API 端点**: `https://api.moonshot.cn/anthropic`
+- **模型**: `moonshotai/Kimi-K2-Instruct-0905`
+
+### 阿里云百炼
+- **环境变量**: `BAILIAN_AUTH_TOKEN`
+- **API 端点**: `https://dashscope.aliyuncs.com/api/v2/apps/claude-code-proxy`
+
+### ModelScope
+- **环境变量**: `MODELSCOPE_AUTH_TOKEN`
+- **API 端点**: `https://api-inference.modelscope.cn`
+- **模型**: `moonshotai/Kimi-K2-Instruct-0905`
+
+### 智谱 BigModel
+- **环境变量**: `BIGMODEL_API_KEY`
+- **API 端点**: `https://open.bigmodel.cn/api/anthropic`
+- **模型**: `glm-4.5`
+- **小型快速模型**: `glm-4.5-air`
 
 ## 📁 文件结构
 

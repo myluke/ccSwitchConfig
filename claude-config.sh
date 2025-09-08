@@ -61,7 +61,9 @@ claudeapply() {
             if [[ -z "$BIGMODEL_API_KEY" ]]; then return 1; fi
             _clear_claude_env
             export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
-            export ANTHROPIC_API_KEY="$BIGMODEL_API_KEY"
+            export ANTHROPIC_AUTH_TOKEN="$BIGMODEL_API_KEY"
+            export ANTHROPIC_MODEL="glm-4.5"
+            export ANTHROPIC_SMALL_FAST_MODEL="glm-4.5-air"
             ;;
         clear)
             _clear_claude_env
