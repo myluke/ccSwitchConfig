@@ -57,6 +57,12 @@ claudeapply() {
             export ANTHROPIC_AUTH_TOKEN="$MODELSCOPE_AUTH_TOKEN"
             export ANTHROPIC_MODEL="moonshotai/Kimi-K2-Instruct-0905"
             ;;
+        big|bigmodel)
+            if [[ -z "$BIGMODEL_API_KEY" ]]; then return 1; fi
+            _clear_claude_env
+            export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
+            export ANTHROPIC_API_KEY="$BIGMODEL_API_KEY"
+            ;;
         clear)
             _clear_claude_env
             ;;
@@ -87,6 +93,11 @@ claudeswitch() {
             claudeapply
             echo "✅ 已切换到 ModelScope"
             ;;
+        big|bigmodel)
+            echo "big" > "$_CLAUDE_CHOICE_FILE"
+            claudeapply
+            echo "✅ 已切换到智谱 BigModel"
+            ;;
         status)
             local current_choice
             if [[ -f "$_CLAUDE_CHOICE_FILE" ]]; then
@@ -113,6 +124,7 @@ claudeswitch() {
             echo "   moon/moonshot     - 切换到 Moonshot API"
             echo "   ali/bailian       - 切换到阿里云百炼"
             echo "   ms/modelscope     - 切换到 ModelScope"
+            echo "   big/bigmodel      - 切换到智谱 BigModel"
             echo "   status            - 显示当前配置"
             echo "   clear             - 清理环境变量并设为默认"
             echo "   help              - 显示此帮助"
@@ -138,6 +150,8 @@ _claude_complete() {
         'bailian:切换到阿里云百炼'
         'ms:切换到 ModelScope'
         'modelscope:切换到 ModelScope'
+        'big:切换到智谱 BigModel'
+        'bigmodel:切换到智谱 BigModel'
         'status:显示当前配置'
         'clear:清理环境变量并设为默认'
         'help:显示帮助'

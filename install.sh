@@ -26,6 +26,9 @@ BAILIAN_AUTH_TOKEN="sk-your-bailian-token"
 
 # ModelScope 配置
 MODELSCOPE_AUTH_TOKEN="ms-your-modelscope-token"
+
+# 智谱 BigModel 配置
+BIGMODEL_API_KEY="sk-your-bigmodel-key"
 EOF
     chmod 600 "$KEYS_FILE"
     echo "✅ 密钥文件已创建: $KEYS_FILE"
@@ -59,7 +62,7 @@ echo ""
 echo "📋 下一步："
 echo "1️⃣  编辑密钥：vim ~/.config/claude/api-keys.env"
 echo "2️⃣  重新加载：source ~/.zshrc"
-echo "3️⃣  切换配置：claudeswitch moon (或 ali, ms)"
+echo "3️⃣  切换配置：claudeswitch moon (或 ali, ms, big)"
 echo "4️⃣  查看状态：claudeswitch status"
 echo ""
 echo "💡 你的选择会自动在所有新终端中生效。密钥文件权限已设置为 600。"
